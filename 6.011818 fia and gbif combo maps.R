@@ -24,22 +24,19 @@
 #####
 #####
 
-# set working directory to pull fia data
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
-
 # load package to get data from gbif
 library(rgbif)
 library(dplyr)
 
 # Upload species data
 ## Q alba
-alba_fia <- read.csv("Q_alba_46.csv")
+alba_fia <- read.csv("../../Q_alba_46.csv")
 
 alba_gbif <- occ_download_get(key = "0010276-171219132708484", overwrite = TRUE) %>% 
   occ_download_import(usa_gbif_download, na.strings = c("", NA))
 
 ## Q rubra
-rubra_fia <- read.csv("Q_rubra_46.csv")
+rubra_fia <- read.csv("../../Q_rubra_46.csv")
 
 rubra_gbif <- occ_download_get(key = "0010278-171219132708484", overwrite = TRUE) %>% 
   occ_download_import(usa_gbif_download, na.strings = c("", NA))
@@ -47,8 +44,8 @@ rubra_gbif <- occ_download_get(key = "0010278-171219132708484", overwrite = TRUE
 ######################################################
 # 1.23.18 edit
 # and adding it all together with ga and mn fia data!!
-alba_plus <- read.csv("Q_alba_GAMN.csv")
-rubra_plus <- read.csv("Q_rubra_GAMN.csv")
+alba_plus <- read.csv("../../Q_alba_GAMN.csv")
+rubra_plus <- read.csv("../../Q_rubra_GAMN.csv")
 
 # combine the previous dataframes
 alba_fia <- rbind(alba_fia, alba_plus)
