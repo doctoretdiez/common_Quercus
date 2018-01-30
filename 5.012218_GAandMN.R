@@ -21,13 +21,10 @@
 # So there is a lot of data contained in these CSVs.
 
 
-# set working directory to pull fia data
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
-
-plot <- read.csv("PLOT.csv")
+plot <- read.csv("../data/CSV_DATA/PLOT.csv")
 
 # read in the tree csv
-GA <- read.csv("GA_TREE.csv")
+GA <- read.csv("../data/CSV_DATA/GA_TREE.csv")
 # don't forget to remove the trees that are not alive
 GA <- GA[, c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                      "PLOT", "SPCD", "STATUSCD")]
@@ -71,7 +68,7 @@ rm(GA)
 
 
 # Now do the same for MN
-MN <- read.csv("MN_TREE.csv")
+MN <- read.csv("../data/CSV_DATA/MN_TREE.csv")
 MN <- MN[, c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                      "PLOT", "SPCD", "STATUSCD")]
 MN <- MN[MN$STATUSCD == 1, ]
