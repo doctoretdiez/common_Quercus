@@ -26,8 +26,13 @@ setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
 
 plot <- read.csv("PLOT.csv")
 
-
+# read in the tree csv
 GA <- read.csv("GA_TREE.csv")
+# don't forget to remove the trees that are not alive
+GA <- GA[, c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
+                     "PLOT", "SPCD", "STATUSCD")]
+GA <- GA[GA$STATUSCD == 1, ]
+
 # make an alba-specific file
 albaG <- GA[which(GA$SPCD==802), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                                               "PLOT")]
@@ -67,6 +72,10 @@ rm(GA)
 
 # Now do the same for MN
 MN <- read.csv("MN_TREE.csv")
+MN <- MN[, c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
+                     "PLOT", "SPCD", "STATUSCD")]
+MN <- MN[MN$STATUSCD == 1, ]
+
 # this one has some warnings, but I think it's okay...
 
 albaM <- MN[which(MN$SPCD==802), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
