@@ -21,19 +21,15 @@
 ###### 
 ###### *excludes Q alba and Q rubra from Georgia and Minnesota, so there are gaps in the map.
 
-
-# set wd to place where I will pull data
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
-
 # read in pre-cleaned species data (Note: missing Minnesota and Georgia data)
 # it includes lat and lon of each plot and the density of the species in the plot
 # we have two species to upload
 #
 # Quercus alba
-alba <- read.csv("Q_alba_46.csv")
+alba <- read.csv("../../Q_alba_46.csv")
 
 # Quercus rubra
-rubra <- read.csv("Q_rubra_46.csv")
+rubra <- read.csv("../../Q_rubra_46.csv")
 
 # for the continuous color palettes, we will need a special legend
 legend.col <- function(col, lev){
