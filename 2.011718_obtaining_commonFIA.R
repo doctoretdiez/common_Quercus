@@ -19,17 +19,14 @@
 ###### 
 ###### *excludes Q alba and Q rubra from Georgia and Minnesota
 
-# set wd to place where I will pull data
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
-
 
 # read in plot data, which includes location according to lat and lon
 # be patient. it takes a while.
-plot <- read.csv("PLOT.csv")
+plot <- read.csv("../data/CSV_DATA/PLOT.csv")
 # read in tree data from the first csv, which lists all species and 
 # the plots in which they were found
 # this one will take time to read in too
-treeALFL <- read.csv("lower48_AL_FL.csv")
+treeALFL <- read.csv("../../lower48_AL_FL.csv")
 
 # Now both of the above hold more information than we need, so let's extract some data
 
@@ -60,7 +57,7 @@ u_plot$density <- t
 rm(treeALFL)
 ##### Now we can redo the steps from lines 22 to 41. First let's read in a new state.
 
-treeIDMI <- read.csv("lower48_ID_MI.csv")
+treeIDMI <- read.csv("../../lower48_ID_MI.csv")
 
 #REVIEW: pare list down to Quercus alba only, merge with plot info, and only keep lat and lon
 alba <- treeIDMI[which(treeIDMI$SPCD==802), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
@@ -87,7 +84,7 @@ u_plot <- rbind(u_plot, u_plot_attach)
 rm(treeIDMI)
 # Repeat
 
-treeMSOK <- read.csv("lower48_MS_OK.csv")
+treeMSOK <- read.csv("../../lower48_MS_OK.csv")
 
 alba <- treeMSOK[which(treeMSOK$SPCD==802), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                                               "PLOT")]
@@ -109,7 +106,7 @@ rm(treeMSOK)
 
 # Repeat
 
-treeORVT <- read.csv("lower48_OR_VT.csv")
+treeORVT <- read.csv("../../lower48_OR_VT.csv")
 
 alba <- treeORVT[which(treeORVT$SPCD==802), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                                               "PLOT")]
@@ -131,7 +128,7 @@ rm(treeORVT)
 
 # Repeat
 
-treeVAWY <- read.csv("lower48_VA_WY.csv")
+treeVAWY <- read.csv("../../lower48_VA_WY.csv")
 
 alba <- treeVAWY[which(treeVAWY$SPCD==802), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                                               "PLOT")]
@@ -164,7 +161,7 @@ write.csv(x = u_plot, file = "Q_alba_46.csv")
 
 
 
-treeALFL <- read.csv("lower48_AL_FL.csv")
+treeALFL <- read.csv("../../lower48_AL_FL.csv")
 
 # Quercus rubra (species code is 833)
 
@@ -187,7 +184,7 @@ u_plot$density <- t
 rm(treeALFL)
 
 # next
-treeIDMI <- read.csv("lower48_ID_MI.csv")
+treeIDMI <- read.csv("../../lower48_ID_MI.csv")
 
 #REVIEW: pare list down to Quercus alba only, merge with plot info, and only keep lat and lon
 rubra <- treeIDMI[which(treeIDMI$SPCD==833), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
@@ -212,7 +209,7 @@ u_plot <- rbind(u_plot, u_plot_attach)
 rm(treeIDMI)
 # Repeat
 
-treeMSOK <- read.csv("lower48_MS_OK.csv")
+treeMSOK <- read.csv("../../lower48_MS_OK.csv")
 
 rubra <- treeMSOK[which(treeMSOK$SPCD==833), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                                               "PLOT")]
@@ -234,7 +231,7 @@ rm(treeMSOK)
 
 # Repeat
 
-treeORVT <- read.csv("lower48_OR_VT.csv")
+treeORVT <- read.csv("../../lower48_OR_VT.csv")
 
 rubra <- treeORVT[which(treeORVT$SPCD==833), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                                                "PLOT")]
@@ -256,7 +253,7 @@ rm(treeORVT)
 
 # Repeat
 
-treeVAWY <- read.csv("lower48_VA_WY.csv")
+treeVAWY <- read.csv("../../lower48_VA_WY.csv")
 
 rubra <- treeVAWY[which(treeVAWY$SPCD==833), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                                                "PLOT")]
