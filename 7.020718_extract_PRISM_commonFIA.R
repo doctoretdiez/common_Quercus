@@ -52,6 +52,8 @@ library(raster)
 library(rgdal)
 library(sp)
 
+# not sure if you can load these on the server? do packages work on the server R?
+# otherwise cd /PRISM
 # upload relevant climate RasterLayers
 annual_ppt <- raster("PRISM_ppt_30yr_normal_4kmM2_annual_bil.bil")
 annual_mean_temp <- raster("PRISM_tmean_30yr_normal_4kmM2_annual_bil.bil")
@@ -59,14 +61,11 @@ annual_max_temp <- raster("PRISM_tmax_30yr_normal_4kmM2_annual_bil.bil")
 annual_min_temp <- raster("PRISM_tmin_30yr_normal_4kmM2_annual_bil.bil")
 elev <- raster("PRISM_us_dem_4km_bil.bil")
 
-# set wd to place where FIA CSVs are stored
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
-
 # input all csvs detailing the locations of Quercus alba and Quercus rubra
-alba_fia <- read.csv("Q_alba_46.csv")
-rubra_fia <- read.csv("Q_rubra_46.csv")
-alba_plus <- read.csv("Q_alba_GAMN.csv")
-rubra_plus <- read.csv("Q_rubra_GAMN.csv")
+alba_fia <- read.csv("../../Q_alba_46.csv")
+rubra_fia <- read.csv("../../Q_rubra_46.csv")
+alba_plus <- read.csv("../../Q_alba_GAMN.csv")
+rubra_plus <- read.csv("../../Q_rubra_GAMN.csv")
 
 # combine the previous dataframes to include all lower 48 states in one
 alba_fia <- rbind(alba_fia, alba_plus)
