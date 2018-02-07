@@ -1,13 +1,37 @@
-#######################
-########### 2.7.18
-######## Using climatic CSVs to make niche maps
-##### heatmaps in ggplot2
-####### E. Tokarz
-#########################
+############ 9.
+########### 2.7.18 Elizabeth Tokarz
+############# Make niche maps (annual precipitation v. annual mean temperature)
+############# with newly made 'climatic' CSVs
+#############  Q alba
+############## Q rubra
+#############
 
+############### INPUT: 'climatic' CSVs for FIA and GBIF
+##### see files 7 and 8
+#### alba_fia_climatic.csv
+#### --contains information about the location AND climate variables of the 
+# Quercus alba distribution in FIA
+#### rubra_fia_climatic.csv
+#### alba_gbif_climatic.csv (for the Q. alba occurring in GBIF database)
+#### rubra_gbif_climatic.csv
+####
+# use ggplot2 package to make the output maps
+#
+############### OUTPUT: visual png nichemaps
+######  Q_alba_fia_ppt_met.png (hexagonal heatmap comparing annual precipitation (mm)
+# with annual mean temperature (degrees C) for all locations where Quercus alba was
+# found in the FIA surveys)
+###### Q_rubra_fia_ppt_met.png (the above for Quercus rubra, FIA)
+###### Q_alba_gbif_ppt_met.png (same type of map, but for all locations where Quercus
+# alba was recorded in the GBIF database)
+##### Q_rubra_gbif_ppt_met.png (the above for Quercus rubra, GBIF)
+################################################################################
+#
+#
+# set wd to obtain the CSVs
 setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
 
-# start by reading in the csvs with climate data pertaining to each common Quercus
+# start by reading in the FIA csvs with climate data pertaining to each common Quercus
 alba_fia <- read.csv("alba_fia_climatic.csv")
 rubra_fia <- read.csv("rubra_fia_climatic.csv")
 
@@ -33,7 +57,6 @@ dev.off()
 # read in the files first
 alba_gbif <- read.csv("alba_gbif_climatic.csv")
 rubra_gbif <- read.csv("rubra_gbif_climatic.csv")
-
 
 # make those niche maps
 # We will start with our basics
