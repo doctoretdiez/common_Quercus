@@ -1,51 +1,74 @@
-#######################
-########### 2.7.18
-######## Using shapefiles to extract climate data from PRISM
-####### E. Tokarz
-# https://nceas.github.io/oss-lessons/spatial-data-gis-law/4-tues-spatial-analysis-in-r.html 
-# sdm.pdf paper on desktop
-#########################
+############ 7.
+########### 2.7.18 Elizabeth Tokarz
+############# Extracting PRISM climate data for FIA distribution
+#############  Q alba
+############## Q rubra
+#############
+
+############### INPUT: climate RasterLayers from PRISM database (.bil files),
+###############         also, FIA CSVs for Q. alba and Q rubra (2 & 5)
+######
+###### see files 2, 5
+######
+###### Find PRISM data on ULMUS server in  /home/data/PRISM
+###### # unit: mm
+# 30-year normal annual precipitation in mm
+#"PRISM_ppt_30yr_normal_4kmM2_annual_bil.bil"
+# 
+# 30-year normal temperatures in degrees C
+# mean "PRISM_tmean_30yr_normal_4kmM2_annual_bil.bil"
+# maximum "PRISM_tmax_30yr_normal_4kmM2_annual_bil.bil"
+# minimum "PRISM_tmin_30yr_normal_4kmM2_annual_bil.bil"
+#
+# Elevation data in m
+# "PRISM_us_dem_4km_bil.bil"
+#####
+##### use raster, rgdal and sp packages to read PRISM data
+##########################################################
+# FIA CSVs previously made
+# Q_alba_46.csv (2) (FIA plot location and density for 46 states--Q. alba)
+######  Q_rubra_46.csv (2)
+######  Q_alba_GAMN.csv (5) (FIA plot location and density data for 2 states--Q. alba)
+######  Q_rubra_GAMN.csv (5)
+#
+############### OUTPUT: updated FIA CSVs with climate data
+######  alba_fia_climatic.csv
+# These CSVs contain all the previous columns, plus annual precipitation, annual
+# mean temperature, annual maximum temperature, annual minimum temperature and 
+# elevation
+####### rubra_fia_climatic.csv
+#
+#
+##############################################################################
+# We want to extract the PRISM data for the distributions
+# of common Quercus species alba and rubra
+# Predictor variables are wrapped up in PRISM rasters. Occurence points are
+# wrapped up in lat and lon coordinates
+
+# set wd to place where I will pull PRISM data
+setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/PRISM")
 
 library(raster)
 library(rgdal)
 library(sp)
 
-# Predictor variables are wrapped up in PRISM rasters. Occurence points are
-# wrapped up in distribution shapefiles
-
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/PRISM")
-# We want to extract from the following
-# unit: mm
+# upload relevant climate RasterLayers
 annual_ppt <- raster("PRISM_ppt_30yr_normal_4kmM2_annual_bil.bil")
-# 
-# unit: degrees C
 annual_mean_temp <- raster("PRISM_tmean_30yr_normal_4kmM2_annual_bil.bil")
 annual_max_temp <- raster("PRISM_tmax_30yr_normal_4kmM2_annual_bil.bil")
 annual_min_temp <- raster("PRISM_tmin_30yr_normal_4kmM2_annual_bil.bil")
-#
-#unit: m
 elev <- raster("PRISM_us_dem_4km_bil.bil")
 
-
+# set wd to place where FIA CSVs are stored
 setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
-# We want to extract the PRISM data for our shapefiles covering the distribution
-# of common Quercus species alba and ruba
-# Why not just use csvs?
-#alba_dist_FIA <- readOGR("albaLocations_FIA.shp")
-#rubra_dist_FIA <- readOGR("rubraLocations_FIA.shp")
 
-
-#alba_FIA_climate <- extract(annual_ppt, alba_dist_FIA)
-#summary(alba_FIA_climate)
-# This didn't quite work...
-# Why not just use csvs?
 # input all csvs detailing the locations of Quercus alba and Quercus rubra
 alba_fia <- read.csv("Q_alba_46.csv")
 rubra_fia <- read.csv("Q_rubra_46.csv")
 alba_plus <- read.csv("Q_alba_GAMN.csv")
 rubra_plus <- read.csv("Q_rubra_GAMN.csv")
 
-# combine the previous dataframes to include all lower 48 states
+# combine the previous dataframes to include all lower 48 states in one
 alba_fia <- rbind(alba_fia, alba_plus)
 rubra_fia <- rbind(rubra_fia, rubra_plus)
 
@@ -58,20 +81,19 @@ str(rubra_fia)
 alba_fia_coord <- alba_fia[, 8:7]
 rubra_fia_coord <- rubra_fia[, 8:7]
 
-# and now try extracting precipitation data from PRISM
+# extract precipitation data from PRISM
 alba_fia_ppt <- extract(annual_ppt, alba_fia_coord)
 summary(alba_fia_ppt)
 rubra_fia_ppt <- extract(annual_ppt, rubra_fia_coord)
 summary(rubra_fia_ppt)
 
-# now extract the mean temperature data from PRISM
+# extract mean temperature data from PRISM
 alba_fia_met <- extract(annual_mean_temp, alba_fia_coord)
 summary(alba_fia_met)
 rubra_fia_met <- extract(annual_mean_temp, rubra_fia_coord)
 summary(rubra_fia_met)
 
 # Now add on this climatic data to the data frames
-
 alba_fia$annual_ppt <- alba_fia_ppt
 alba_fia$mean_annual_temp <- alba_fia_met
 rubra_fia$annual_ppt <- rubra_fia_ppt
@@ -103,4 +125,3 @@ rubra_fia$min_annual_temp <- rubra_fia_mit
 # now we will write these CSVs for future use
 write.csv(alba_fia, file = "alba_fia_climatic.csv")
 write.csv(rubra_fia, file = "rubra_fia_climatic.csv")
-
