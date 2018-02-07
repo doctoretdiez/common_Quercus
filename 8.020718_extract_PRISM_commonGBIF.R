@@ -50,7 +50,7 @@ library(rgdal)
 library(sp)
 
 # set wd for PRISM data
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/PRISM")
+setwd("/PRISM")
 
 # and extract the appropriate climat RasterLayers
 annual_ppt <- raster("PRISM_ppt_30yr_normal_4kmM2_annual_bil.bil")
@@ -60,7 +60,7 @@ annual_min_temp <- raster("PRISM_tmin_30yr_normal_4kmM2_annual_bil.bil")
 elev <- raster("PRISM_us_dem_4km_bil.bil")
 
 # Now change the wd to a place where you will be saving the files you make
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
+setwd("/../data/")
 
 # we need to use a couple different packages to get GBIF data
 library(rgbif)
