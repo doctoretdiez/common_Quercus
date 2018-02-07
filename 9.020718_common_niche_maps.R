@@ -28,12 +28,10 @@
 ################################################################################
 #
 #
-# set wd to obtain the CSVs
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
 
 # start by reading in the FIA csvs with climate data pertaining to each common Quercus
-alba_fia <- read.csv("alba_fia_climatic.csv")
-rubra_fia <- read.csv("rubra_fia_climatic.csv")
+alba_fia <- read.csv("../../alba_fia_climatic.csv")
+rubra_fia <- read.csv("../../rubra_fia_climatic.csv")
 
 # now making the niche plots is not too hard. Load the ggplot2 package
 library(ggplot2)
@@ -55,8 +53,8 @@ dev.off()
 
 # Now let's continue with the GBIF niche maps
 # read in the files first
-alba_gbif <- read.csv("alba_gbif_climatic.csv")
-rubra_gbif <- read.csv("rubra_gbif_climatic.csv")
+alba_gbif <- read.csv("../../alba_gbif_climatic.csv")
+rubra_gbif <- read.csv("../../rubra_gbif_climatic.csv")
 
 # make those niche maps
 # We will start with our basics
