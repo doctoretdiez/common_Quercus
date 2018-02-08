@@ -71,3 +71,42 @@ ggplot(data = rubra_gbif, aes(x = annual_ppt, y = mean_annual_temp)) +
   labs(y = "mean annual temperature (degrees C)", 
        x = "annual precipitation (mm)")
 dev.off()
+
+
+# Make a nicheplot with 4 windows to compare...
+# let's reform the data frames
+# we want six columns: species, source, latitude, longitude, 
+# annual precipitation, annual mean temperature
+
+str(alba_fia)
+head(alba_fia[, c("LAT", "LON", "annual_ppt", "mean_annual_temp")])
+alba_fia_prep <- alba_fia[, c("LAT", "LON", "annual_ppt", "mean_annual_temp")]
+alba_fia_prep$species <- "Q_alba"
+alba_fia_prep$source <- "FIA"
+
+rubra_fia_prep <- rubra_fia[, c("LAT", "LON", "annual_ppt", "mean_annual_temp")]
+rubra_fia_prep$species <- "Q_rubra"
+rubra_fia_prep$source <- "FIA"
+
+str(alba_gbif)
+head(alba_gbif[, c("decimallatitude", "decimallongitude", "annual_ppt", "mean_annual_temp")])
+alba_gbif_prep <- alba_gbif[, c("decimallatitude", "decimallongitude", "annual_ppt", "mean_annual_temp")]
+alba_gbif_prep$species <- "Q_alba"
+alba_gbif_prep$source <- "GBIF"
+
+rubra_gbif_prep <- rubra_gbif[, c("decimallatitude", "decimallongitude", "annual_ppt", "mean_annual_temp")]
+rubra_gbif_prep$species <- "Q_rubra"
+rubra_gbif_prep$source <- "GBIF"
+
+# Now let's rename the lat and lon columns of gbif so we can combine them.
+names(alba_gbif_prep) <- c("LAT", "LON", "annual_ppt", "mean_annual_temp", 
+                           "species", "source")
+
+names(rubra_gbif_prep) <- c("LAT", "LON", "annual_ppt", "mean_annual_temp", 
+                            "species", "source")
+# combine them with rbind
+common <- rbind(alba_fia_prep, alba_gbif_prep)
+common <- rbind(common, rubra_fia_prep)
+common <- rbind(common, rubra_gbif_prep)
+
+# and now we have a new dataframe for making plots in ggplot2!
