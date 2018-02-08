@@ -120,3 +120,39 @@ ggplot(data = common, aes(x = annual_ppt, y = mean_annual_temp)) +
 dev.off()
 
 
+# Try making a similarly formatted density plot
+# This will compare where sampling was strongest for both databases
+### making a density plot of 2d data
+
+png(filename = "common_densitymap_full.png", width = 675, height = 556)
+ggplot(data = common, aes(x = LON, y = LAT)) + 
+  geom_point() + stat_density2d() +
+  facet_grid(species ~ source) +
+  ggtitle("Sampling density_full")
+dev.off()
+
+# Some GBIF coordinates claim to be all around the globe, so I will remove 
+# the individuals out of the normal range...
+common_pare <- common[common$LAT > 20, ]
+common_pare <- common_pare[common_pare$LON < -50, ]
+str(common_pare)
+# remove NAs from the species category
+common_pare <- common_pare[!is.na(common_pare$species), ]
+# now use common_pare
+
+png(filename = "common_densitymap_pare.png", width = 675, height = 394)
+ggplot(data = common_pare, aes(x = LON, y = LAT)) + 
+  geom_point() + stat_density2d() +
+  facet_grid(species ~ source) +
+  ggtitle("Sampling density_pare")
+dev.off()
+
+# now pare it even further
+common_pare2 <- common_pare[common_pare$LON > -105, ]
+
+png(filename = "common_densitymap_pare2.png", width = 675, height = 556)
+ggplot(data = common_pare2, aes(x = LON, y = LAT)) + 
+  geom_point() + stat_density2d() +
+  facet_grid(species ~ source) +
+  ggtitle("Sampling density_pare")
+dev.off()
