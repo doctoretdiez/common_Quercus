@@ -17,7 +17,7 @@
 ####
 # use ggplot2 package to make the output maps
 #
-############### OUTPUT: visual png nichemaps
+############### OUTPUT: visual png nichemaps and density maps
 ######  Q_alba_fia_ppt_met.png (hexagonal heatmap comparing annual precipitation (mm)
 # with annual mean temperature (degrees C) for all locations where Quercus alba was
 # found in the FIA surveys)
@@ -25,6 +25,13 @@
 ###### Q_alba_gbif_ppt_met.png (same type of map, but for all locations where Quercus
 # alba was recorded in the GBIF database)
 ##### Q_rubra_gbif_ppt_met.png (the above for Quercus rubra, GBIF)
+#
+######### Also make some multi-window plots
+# common_nichemap.png (multi-window nichemap)
+# common_densitymap_full.png (multi-window density plot, full distribution of GBIF)
+# common_densitymap_pare.png (multi-window density plot, pared-down GBIF distribution, lower 48 US)
+# common_densitymap_pare2.png (multi-window density plot, pared-down GBIF distribution, eastern US)
+#
 ################################################################################
 #
 #
