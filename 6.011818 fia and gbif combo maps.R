@@ -69,9 +69,9 @@ png(filename = "Q_rubra_combo.png", width = 675, height = 406)
 palette("default")
 map("state")
 points(x = rubra_fia$LON, y = rubra_fia$LAT, col = "indianred1", pch = 20, cex = 0.7)
-points(x = rubra_gbif$decimallongitude, y = rubra_gbif$decimallatitude, col = "red", pch = 20, cex = 0.7)
+points(x = rubra_gbif$decimallongitude, y = rubra_gbif$decimallatitude, col = "darkred", pch = 20, cex = 0.7)
 title(main = "Quercus rubra")
-legend("bottomleft", legend = c("FIA", "GBIF"), col = c("indianred1", "red"), pch = 20)
+legend("bottomleft", legend = c("FIA", "GBIF"), col = c("indianred1", "darkred"), pch = 20)
 dev.off()
 
 
