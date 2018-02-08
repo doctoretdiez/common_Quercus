@@ -17,7 +17,7 @@
 ####
 # use ggplot2 package to make the output maps
 #
-############### OUTPUT: visual png nichemaps and density maps
+############### OUTPUT: visual png nichemaps
 ######  Q_alba_fia_ppt_met.png (hexagonal heatmap comparing annual precipitation (mm)
 # with annual mean temperature (degrees C) for all locations where Quercus alba was
 # found in the FIA surveys)
@@ -25,20 +25,15 @@
 ###### Q_alba_gbif_ppt_met.png (same type of map, but for all locations where Quercus
 # alba was recorded in the GBIF database)
 ##### Q_rubra_gbif_ppt_met.png (the above for Quercus rubra, GBIF)
-#
-######### Also make some multi-window plots
-# common_nichemap.png (multi-window nichemap)
-# common_densitymap_full.png (multi-window density plot, full distribution of GBIF)
-# common_densitymap_pare.png (multi-window density plot, pared-down GBIF distribution, lower 48 US)
-# common_densitymap_pare2.png (multi-window density plot, pared-down GBIF distribution, eastern US)
-#
 ################################################################################
 #
 #
+# set wd to obtain the CSVs
+setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
 
 # start by reading in the FIA csvs with climate data pertaining to each common Quercus
-alba_fia <- read.csv("../../alba_fia_climatic.csv")
-rubra_fia <- read.csv("../../rubra_fia_climatic.csv")
+alba_fia <- read.csv("alba_fia_climatic.csv")
+rubra_fia <- read.csv("rubra_fia_climatic.csv")
 
 # now making the niche plots is not too hard. Load the ggplot2 package
 library(ggplot2)
@@ -60,8 +55,8 @@ dev.off()
 
 # Now let's continue with the GBIF niche maps
 # read in the files first
-alba_gbif <- read.csv("../../alba_gbif_climatic.csv")
-rubra_gbif <- read.csv("../../rubra_gbif_climatic.csv")
+alba_gbif <- read.csv("alba_gbif_climatic.csv")
+rubra_gbif <- read.csv("rubra_gbif_climatic.csv")
 
 # make those niche maps
 # We will start with our basics
@@ -78,6 +73,7 @@ ggplot(data = rubra_gbif, aes(x = annual_ppt, y = mean_annual_temp)) +
   labs(y = "mean annual temperature (degrees C)", 
        x = "annual precipitation (mm)")
 dev.off()
+
 
 
 # Make a nicheplot with 4 windows to compare...
@@ -116,8 +112,8 @@ common <- rbind(alba_fia_prep, alba_gbif_prep)
 common <- rbind(common, rubra_fia_prep)
 common <- rbind(common, rubra_gbif_prep)
 
+str(common)
 # and now we have a new dataframe for making plots in ggplot2!
-
 png(filename = "common_nichemap.png", width = 675, height = 556)
 ggplot(data = common, aes(x = annual_ppt, y = mean_annual_temp)) +
   stat_bin_hex() + facet_grid(species~source) +
@@ -128,15 +124,14 @@ dev.off()
 
 
 # Try making a similarly formatted density plot
-# This will compare where sampling was strongest for both databases
 ### making a density plot of 2d data
 
-png(filename = "common_densitymap_full.png", width = 675, height = 556)
-ggplot(data = common, aes(x = LON, y = LAT)) + 
-  geom_point() + stat_density2d() +
-  facet_grid(species ~ source) +
-  ggtitle("Sampling density_full")
-dev.off()
+#png(filename = "common_densitymap_full.png", width = 675, height = 556)
+#ggplot(data = common, aes(x = LON, y = LAT)) + 
+#  geom_point() + stat_density2d() +
+#  facet_grid(species ~ source) +
+#  ggtitle("Sampling density_full")
+#dev.off()
 
 # Some GBIF coordinates claim to be all around the globe, so I will remove 
 # the individuals out of the normal range...
@@ -147,19 +142,59 @@ str(common_pare)
 common_pare <- common_pare[!is.na(common_pare$species), ]
 # now use common_pare
 
-png(filename = "common_densitymap_pare.png", width = 675, height = 394)
-ggplot(data = common_pare, aes(x = LON, y = LAT)) + 
+#png(filename = "common_densitymap_pare.png", width = 675, height = 394)
+#ggplot(data = common_pare, aes(x = LON, y = LAT)) + 
+#  geom_point() + stat_density2d() +
+#  facet_grid(species ~ source) +
+#  ggtitle("Sampling density_pare")
+#dev.off()
+
+# now add in US border lines to visualize easier. Clean the background first.
+theme_clean <- function(base_size = 12) {
+  require(grid)
+  theme_gray(base_size) %+replace%
+    theme(
+      axis.title = element_blank(),
+      axis.text = element_blank(),
+      panel.background  = element_blank(),
+      panel.grid = element_blank(),
+      axis.ticks.length = unit(0, "cm"),
+      axis.ticks.margin = unit(0, "cm"),
+      panel.margin = unit(0, "lines"),
+      plot.margin = unit(c(0, 0, 0, 0), "lines" ),
+      complete = T
+    )
+}
+
+# and prepare the outline of the US
+us<-map_data('state')
+# then plot
+png(filename = "common_densitymap_outline_points.png", width = 675, height = 444)
+po <- ggplot(data = common_pare, aes(x = LON, y = LAT)) + 
+  geom_polygon(data = us, aes(x=long,y=lat,group=group),color='gray',fill=NA,alpha=.35) +
   geom_point() + stat_density2d() +
   facet_grid(species ~ source) +
-  ggtitle("Sampling density_pare")
+  theme_clean()
+print(po + ggtitle("Sampling density"))
+dev.off()
+
+# and without points
+png(filename = "common_densitymap_outline.png", width = 675, height = 444)
+nopo <- ggplot(data = common_pare, aes(x = LON, y = LAT)) + 
+  geom_polygon(data = us, aes(x=long,y=lat,group=group),color='gray',fill=NA,alpha=.35) +
+  stat_density2d() +
+  facet_grid(species ~ source) +
+  theme_clean()
+print(nopo + ggtitle("Sampling density"))
 dev.off()
 
 # now pare it even further
-common_pare2 <- common_pare[common_pare$LON > -105, ]
+#common_pare2 <- common_pare[common_pare$LON > -105, ]
+# this one doesn't zoom in anymore if you use the outline of the US
 
-png(filename = "common_densitymap_pare2.png", width = 675, height = 556)
-ggplot(data = common_pare2, aes(x = LON, y = LAT)) + 
-  geom_point() + stat_density2d() +
-  facet_grid(species ~ source) +
-  ggtitle("Sampling density_pare")
-dev.off()
+#png(filename = "common_densitymap_outline_points2.png", width = 675, height = 444)
+#po2 <- ggplot(data = common_pare2, aes(x = LON, y = LAT)) + 
+#  geom_point() + stat_density2d() +
+#  facet_grid(species ~ source) +
+#print(po2 + ggtitle("Sampling density_zoom"))
+#dev.off()
