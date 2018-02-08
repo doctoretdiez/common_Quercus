@@ -110,3 +110,13 @@ common <- rbind(common, rubra_fia_prep)
 common <- rbind(common, rubra_gbif_prep)
 
 # and now we have a new dataframe for making plots in ggplot2!
+
+png(filename = "Q_rubra_gbif_ppt_met.png", width = 675, height = 556)
+ggplot(data = common, aes(x = annual_ppt, y = mean_annual_temp)) +
+  stat_bin_hex() + facet_grid(species~source) +
+  ggtitle("Common Quercus nichemaps")
+  labs(y = "mean annual temperature (degrees C)", 
+       x = "annual precipitation (mm)")
+dev.off()
+
+
