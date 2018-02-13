@@ -10,7 +10,8 @@
 ######
 ###### see files 2, 5
 ######
-###### Find PRISM data on ULMUS server in  /home/data/PRISM
+###### Find PRISM data on ULMUS server in  /home/data/PRISM/normals
+######                                  or /home/data/PRISM/DEM
 ###### # unit: mm
 # 30-year normal annual precipitation in mm
 #"PRISM_ppt_30yr_normal_4kmM2_annual_bil.bil"
@@ -46,7 +47,7 @@
 # wrapped up in lat and lon coordinates
 
 # set wd to place where I will pull PRISM data
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/PRISM")
+setwd("/home/data/PRISM")
 
 library(raster)
 library(rgdal)
@@ -55,11 +56,11 @@ library(sp)
 # not sure if you can load these on the server? do packages work on the server R?
 # otherwise cd /PRISM
 # upload relevant climate RasterLayers
-annual_ppt <- raster("PRISM_ppt_30yr_normal_4kmM2_annual_bil.bil")
-annual_mean_temp <- raster("PRISM_tmean_30yr_normal_4kmM2_annual_bil.bil")
-annual_max_temp <- raster("PRISM_tmax_30yr_normal_4kmM2_annual_bil.bil")
-annual_min_temp <- raster("PRISM_tmin_30yr_normal_4kmM2_annual_bil.bil")
-elev <- raster("PRISM_us_dem_4km_bil.bil")
+annual_ppt <- raster("/normals/ppt/PRISM_ppt_30yr_normal_4kmM2_annual_bil.bil")
+annual_mean_temp <- raster("/normals/tmean/PRISM_tmean_30yr_normal_4kmM2_annual_bil.bil")
+annual_max_temp <- raster("/normals/tmax/PRISM_tmax_30yr_normal_4kmM2_annual_bil.bil")
+annual_min_temp <- raster("/normals/tmin/PRISM_tmin_30yr_normal_4kmM2_annual_bil.bil")
+elev <- raster("/DEM/PRISM_us_dem_4km_bil.bil")
 
 # input all csvs detailing the locations of Quercus alba and Quercus rubra
 alba_fia <- read.csv("../../Q_alba_46.csv")
