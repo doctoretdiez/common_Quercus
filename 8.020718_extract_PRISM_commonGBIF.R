@@ -8,7 +8,8 @@
 ############### INPUT: climate RasterLayers from PRISM database (.bil files),
 ############### AND occurrence data from GBIF database
 #####
-###### Find PRISM data on ULMUS server in  /home/data/PRISM
+###### Find PRISM data on ULMUS server in  /home/data/PRISM/normals
+######                                  or /home/data/PRISM/DEM
 ###### # unit: mm
 # 30-year normal annual precipitation in mm
 #"PRISM_ppt_30yr_normal_4kmM2_annual_bil.bil"
@@ -50,14 +51,14 @@ library(rgdal)
 library(sp)
 
 # set wd for PRISM data
-setwd("/PRISM")
+setwd("/home/data/PRISM")
 
 # and extract the appropriate climat RasterLayers
-annual_ppt <- raster("PRISM_ppt_30yr_normal_4kmM2_annual_bil.bil")
-annual_mean_temp <- raster("PRISM_tmean_30yr_normal_4kmM2_annual_bil.bil")
-annual_max_temp <- raster("PRISM_tmax_30yr_normal_4kmM2_annual_bil.bil")
-annual_min_temp <- raster("PRISM_tmin_30yr_normal_4kmM2_annual_bil.bil")
-elev <- raster("PRISM_us_dem_4km_bil.bil")
+annual_ppt <- raster("/normals/ppt/PRISM_ppt_30yr_normal_4kmM2_annual_bil.bil")
+annual_mean_temp <- raster("normals/tmean/PRISM_tmean_30yr_normal_4kmM2_annual_bil.bil")
+annual_max_temp <- raster("normals/tmax/PRISM_tmax_30yr_normal_4kmM2_annual_bil.bil")
+annual_min_temp <- raster("normals/tmin/PRISM_tmin_30yr_normal_4kmM2_annual_bil.bil")
+elev <- raster("DEM/PRISM_us_dem_4km_bil.bil")
 
 # Now change the wd to a place where you will be saving the files you make
 setwd("/../data/")
