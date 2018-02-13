@@ -28,8 +28,8 @@
 ################################################################################
 #
 #
-# set wd to obtain the CSVs
-setwd("C:/Users/Elizabeth/Desktop/2017_CTS_fellowship/FIA csv")
+# Now change the wd to the place where you previously saved the files you made
+setwd("/../data/")
 
 # start by reading in the FIA csvs with climate data pertaining to each common Quercus
 alba_fia <- read.csv("alba_fia_climatic.csv")
