@@ -62,6 +62,9 @@ annual_max_temp <- raster("/normals/tmax/PRISM_tmax_30yr_normal_4kmM2_annual_bil
 annual_min_temp <- raster("/normals/tmin/PRISM_tmin_30yr_normal_4kmM2_annual_bil.bil")
 elev <- raster("/DEM/PRISM_us_dem_4km_bil.bil")
 
+# Now change the wd to a place where you will be saving the files you make
+setwd("../../data/")
+
 # input all csvs detailing the locations of Quercus alba and Quercus rubra
 alba_fia <- read.csv("../../Q_alba_46.csv")
 rubra_fia <- read.csv("../../Q_rubra_46.csv")
