@@ -22,7 +22,7 @@
 
 # read in plot data, which includes location according to lat and lon
 # be patient. it takes a while.
-plot <- read.csv("../data/CSV_DATA/PLOT.csv")
+plot <- read.csv("../data/FIA_CSV_DATA/PLOT.csv")
 # read in tree data from the first csv, which lists all species and 
 # the plots in which they were found
 # this one will take time to read in too
@@ -55,6 +55,41 @@ t <- as.numeric(table(density_test$ID))
 u_plot$density <- t
 
 rm(treeALFL)
+
+
+#######
+# to generalize the above, I can write a function:
+# first, load all TREE csvs and then combine them.
+
+FIA.species.loc <- function(df.in, spp) {
+  
+  species <- df.in[which(df.in$SPCD==spp), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
+                                                   "PLOT", "STATUSCD", "DIA")]  
+  print(species)
+  
+  species_loc <- merge(species, plot, by = c("INVYR", "STATECD", "UNITCD", 
+                                             "COUNTYCD", "PLOT"), all = F)
+  
+  species_loc <- species_loc[, c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
+                                 "PLOT", "LAT", "LON")]
+  
+  u <- unique(species_loc[, c('INVYR','STATECD','UNITCD', 'COUNTYCD', 'PLOT', 'LAT', 'LON')])
+  ID <- seq(from = 1, to = length(u$INVYR), by = 1)
+  u_plot <- data.frame(u, ID)
+  
+  density_test <- merge(u_plot, species, by = c("INVYR", "UNITCD", "COUNTYCD", "PLOT", "STATECD"), all = F)
+  t <- as.numeric(table(density_test$ID))
+  u_plot$FIA_plot_density <- t
+  print(u_plot)
+  
+  write.csv(x = u_plot, file = paste0(spp, "_48.csv"))
+}
+
+FIA.species.loc(df.in = treeAL, spp = 844)
+
+write.csv(x = u_plot, file = c(spp, "_48.csv_test"))
+
+
 ##### Now we can redo the steps from lines 22 to 41. First let's read in a new state.
 
 treeIDMI <- read.csv("../../lower48_ID_MI.csv")
