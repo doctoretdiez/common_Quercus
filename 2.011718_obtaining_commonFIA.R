@@ -78,7 +78,6 @@ FIA.species.loc.write <- function(df.in, spp) {
   
   species <- df.in[which(df.in$SPCD==spp), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                                              "PLOT")]  
-  print(species)
   
   species_loc <- merge(species, plot, by = c("INVYR", "STATECD", "UNITCD", 
                                              "COUNTYCD", "PLOT"), all = F)
@@ -93,10 +92,40 @@ FIA.species.loc.write <- function(df.in, spp) {
   density_test <- merge(u_plot, species, by = c("INVYR", "UNITCD", "COUNTYCD", "PLOT", "STATECD"), all = F)
   t <- as.numeric(table(density_test$ID))
   u_plot$FIA_plot_density <- t
-  print(u_plot)
+
+  write.csv(x = u_plot, file = paste0(spp, "", df.in, ".csv"))
+}
+
+
+# now try running this with a loop through all state dbs
+FIA.species.loc.write <- function(dfs.in, spp) {
+  u_plot <- rep(NA, times = length(dfs.in))
+  
+  for(i in 1:length(dfs.in)) {
+  
+  species <- dfs.in[i][which(df.in$SPCD==spp), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
+                                             "PLOT")]  
+  
+  species_loc <- merge(species, plot, by = c("INVYR", "STATECD", "UNITCD", 
+                                             "COUNTYCD", "PLOT"), all = F)
+  
+  species_loc <- species_loc[, c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
+                                 "PLOT", "LAT", "LON")]
+  
+  u <- unique(species_loc[, c('INVYR','STATECD','UNITCD', 'COUNTYCD', 'PLOT', 'LAT', 'LON')])
+  ID <- seq(from = 1, to = length(u$INVYR), by = 1)
+  u_plot[i] <- data.frame(u, ID)
+  
+  density_test <- merge(u_plot, species, by = c("INVYR", "UNITCD", "COUNTYCD", "PLOT", "STATECD"), all = F)
+  t <- as.numeric(table(density_test$ID))
+  u_plot[i]$FIA_plot_density <- t
+  ___________
+  
+  }
   
   write.csv(x = u_plot, file = paste0(spp, "", df.in, ".csv"))
 }
+
 
 FIA.species.loc.write(treeALFL, alba)
 FIA.species.loc.write(treeALFL, rubra)
@@ -141,7 +170,7 @@ write.csv(x = u_plot, file = "Q_rubra_46.csv")
 
 
 ##For further examination of specific trees, go back to the raw state CSVs
-FIA.species.loc <- function(df.in, spp) {
+FIA.species.loc.raw <- function(df.in, spp) {
   
   species <- df.in[which(df.in$SPCD==spp), c("INVYR", "STATECD", "UNITCD", "COUNTYCD",
                                              "PLOT", "STATUSCD", "DIA")]  
@@ -164,4 +193,3 @@ FIA.species.loc <- function(df.in, spp) {
   
   write.csv(x = u_plot, file = paste0(spp, "", db.in, ".csv"))
 }
-
